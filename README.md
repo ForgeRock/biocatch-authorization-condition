@@ -24,6 +24,8 @@ ForgeRock AuthZ engine and taking actions based on the BioCatch Score.
 
 The BioCatch-Auth tree nodes and BioCatch Condition Type will be packaged as a jar file using the maven build tool and will be deployed in to the ForgeRock Access Management (AM) application WEB-INF/lib folder which is running on tomcat server.
 
+Download the Biocatch jar from Github repository in the [releases section](https://github.com/ForgeRock/biocatch-authorization-condition/releases/latest).
+
 Copy the .jar file from the ../target directory into the ../web-container/webapps/openam/WEB-INF/lib directory where AM is deployed.
 
 Edit translation.json file - under ../web-container/webapps/openam/XUI/locales/en
