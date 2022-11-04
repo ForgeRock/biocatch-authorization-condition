@@ -37,8 +37,15 @@
 	<properties>
 		<openam.version>6.5.0.1</openam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<forgerockDistMgmtReleasesUrl>https://maven.forgerock.org/repo/internal-releases</forgerockDistMgmtReleasesUrl>
 	</properties>
-
+        <distributionManagement>
+            <repository>
+                <id>forgerock-internal-releases</id>
+                <name>ForgeRock Internal Release Repository</name>
+                <url>https://maven.forgerock.org/repo/internal-releases</url>
+            </repository>
+        </distributionManagement>
 	<repositories>
 		<repository>
 			<id>forgerock-staging-repository</id>
