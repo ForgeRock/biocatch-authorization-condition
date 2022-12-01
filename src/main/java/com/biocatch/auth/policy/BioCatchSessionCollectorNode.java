@@ -29,10 +29,11 @@ import com.google.common.collect.ImmutableList;
  *
  */
 @Node.Metadata(outcomeProvider = SingleOutcomeNode.OutcomeProvider.class, configClass =
-BioCatchSessionCollectorNode.Config.class)
+BioCatchSessionCollectorNode.Config.class, tags = {"marketplace", "trustnetwork"})
 public class BioCatchSessionCollectorNode extends SingleOutcomeNode{
 
 	private static final String BUNDLE = "com/biocatch/auth/policy/BioCatchSessionCollectorNode";
+	private String loggerPrefix = "[BioCatch Session Collector Node][Marketplace] ";
 
 	
 	public interface Config {
@@ -68,12 +69,12 @@ public class BioCatchSessionCollectorNode extends SingleOutcomeNode{
 	@Override
 	public Action process(TreeContext context) {
 		JsonValue sharedState = context.sharedState;
-		
+		Action retval = context.getCallback(NameCallback.class).map(NameCallback::getName)
+                        					  .map(String::new).filter(name -> !Strings.isNullOrEmpty(name))
+                        					  .map(name -> goToNext().replaceSharedState(sharedState.put(CUSTOMER_SESSION_ID, name))
+                        											 .build()).orElseGet(() -> collectOTP(context));
 
-		return context.getCallback(NameCallback.class).map(NameCallback::getName)
-					  .map(String::new).filter(name -> !Strings.isNullOrEmpty(name))
-					  .map(name -> goToNext().replaceSharedState(sharedState.put(CUSTOMER_SESSION_ID, name))
-											 .build()).orElseGet(() -> collectOTP(context));
+		return retval;
 	}
 
 }

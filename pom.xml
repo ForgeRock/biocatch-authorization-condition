@@ -21,7 +21,7 @@
 			<dependency>
 				<groupId>org.forgerock.am</groupId>
 				<artifactId>openam-bom</artifactId>
-				<version>6.5.0</version>
+				<version>7.2.0</version>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
@@ -29,13 +29,13 @@
 
 	<groupId>com.biocatch.auth.policy</groupId>
 	<artifactId>biocatch-auth</artifactId>
-	<version>1.0</version>
+	<version>1.4.3</version>
 	<name>Template for an Auth Tree Hook And Policy maven project</name>
 	<description>An Post Authentication Tree Hook and Authorization Policy for ForgeRock's Identity Platform</description>
 	<packaging>jar</packaging>
 
 	<properties>
-		<openam.version>6.5.0.1</openam.version>
+		<openam.version>7.2.0</openam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<forgerockDistMgmtReleasesUrl>https://maven.forgerock.org/repo/internal-releases</forgerockDistMgmtReleasesUrl>
 	</properties>
@@ -84,6 +84,12 @@
 			<artifactId>httpmime</artifactId>
 			<version>4.3.6</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -130,6 +136,13 @@
 			<artifactId>guava</artifactId>
 			<version>26.0-jre</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
