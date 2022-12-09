@@ -4,7 +4,7 @@ import static utils.BioCatchConsts.CUSTOMER_ID;
 import static utils.BioCatchConsts.CUSTOMER_SESSION_ID;
 import static utils.BioCatchConsts.INIT;
 import static utils.BioCatchConsts.OK;
-
+import java.security.MessageDigest;
 import javax.inject.Inject;
 import org.forgerock.openam.annotations.sm.Attribute;
 import org.forgerock.openam.auth.node.api.AbstractDecisionNode;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.nio.charset.StandardCharsets;
 /**
  * 
  * @author Sacumen (www.sacumen.com)
@@ -35,7 +36,7 @@ import java.util.Date;
  * It takes BioCatch end point URL and customer id from configuration parameter and execute BioCatch "init" API. 
  *
  */
-@Node.Metadata(outcomeProvider = AbstractDecisionNode.OutcomeProvider.class, configClass = BioCatchSessionNode.Config.class, tags = {"marketplace", "trustnetwork"})
+@Node.Metadata(outcomeProvider = BioCatchSessionNode.OutcomeProvider.class, configClass = BioCatchSessionNode.Config.class, tags = {"marketplace", "trustnetwork"})
 public class BioCatchSessionNode extends AbstractDecisionNode {
 	
 	private ExecuteInit init;
@@ -82,10 +83,14 @@ public class BioCatchSessionNode extends AbstractDecisionNode {
             String userName = context.sharedState.get(SharedStateConstants.USERNAME).asString();
             String sessionId = context.sharedState.get(CUSTOMER_SESSION_ID).asString();
 
-            logger.error(userName);
-            logger.error(sessionId);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hashInBytes = md.digest(userName.getBytes(StandardCharsets.UTF_8));
 
-
+            StringBuilder sb = new StringBuilder();
+            for (byte b:hashInBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            userName = sb.toString();
             // Creating Json Request
             JSONObject json = new JSONObject();
             json.put(CUSTOMER_ID,config.customerId());
@@ -95,18 +100,14 @@ public class BioCatchSessionNode extends AbstractDecisionNode {
 
             // Executing BioCatch "init" API
             int status = init.init(json,config.biocatchEndPoint());
-            logger.error(Integer.toString(status));
             if(status == OK) {
-                logger.error(loggerPrefix + "OK");
                 return Action.goTo("True").build();
             }
             else {
-                logger.error(loggerPrefix + "NOT OK");
                 return Action.goTo("False").build();
             }
 		} catch (Exception ex) {
           	logger.error(loggerPrefix + "Exception occurred: " + ex.getMessage());
-          	logger.error(loggerPrefix + "Exception occurred: " + ex.getStackTrace());
           	ex.printStackTrace();
           	context.getStateFor(this).putShared(loggerPrefix + "Exception", new Date() + ": " + ex.getMessage());
           	return Action.goTo("Error").build();

@@ -13,13 +13,11 @@ import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.TextOutputCallback;
 import org.forgerock.json.JsonValue;
-import org.forgerock.openam.auth.node.api.Action;
-import org.forgerock.openam.auth.node.api.Node;
-import org.forgerock.openam.auth.node.api.SingleOutcomeNode;
-import org.forgerock.openam.auth.node.api.TreeContext;
+import org.forgerock.openam.auth.node.api.*;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import org.forgerock.util.i18n.PreferredLocales;
 
 /**
  * 
@@ -28,11 +26,11 @@ import com.google.common.collect.ImmutableList;
  * This class collects cuctomerSessionID from user and shared in shared state.
  *
  */
-@Node.Metadata(outcomeProvider = SingleOutcomeNode.OutcomeProvider.class, configClass =
+@Node.Metadata(outcomeProvider = BioCatchSessionCollectorNode.BioCatchSessionCollectorNodeOutcomeProvider.class, configClass =
 BioCatchSessionCollectorNode.Config.class, tags = {"marketplace", "trustnetwork"})
-public class BioCatchSessionCollectorNode extends SingleOutcomeNode{
+public class BioCatchSessionCollectorNode extends AbstractDecisionNode {
 
-	private static final String BUNDLE = "com/biocatch/auth/policy/BioCatchSessionCollectorNode";
+	private static final String BUNDLE = BioCatchSessionCollectorNode.class.getName();
 	private String loggerPrefix = "[BioCatch Session Collector Node][Marketplace] ";
 
 	
@@ -69,12 +67,36 @@ public class BioCatchSessionCollectorNode extends SingleOutcomeNode{
 	@Override
 	public Action process(TreeContext context) {
 		JsonValue sharedState = context.sharedState;
-		Action retval = context.getCallback(NameCallback.class).map(NameCallback::getName)
-                        					  .map(String::new).filter(name -> !Strings.isNullOrEmpty(name))
-                        					  .map(name -> goToNext().replaceSharedState(sharedState.put(CUSTOMER_SESSION_ID, name))
-                        											 .build()).orElseGet(() -> collectOTP(context));
+		if (!Strings.isNullOrEmpty(context.sharedState.get(CUSTOMER_SESSION_ID).asString()))  {
+			return Action.goTo(BioCatchSessionCollectorNodeOutcome.NEXT_OUTCOME.name()).build();
+		}
 
-		return retval;
+		return context.getCallback(NameCallback.class).map(NameCallback::getName)
+				.map(String::new).filter(name -> !Strings.isNullOrEmpty(name))
+				.map(name -> Action.goTo(BioCatchSessionCollectorNodeOutcome.NEXT_OUTCOME.name()).replaceSharedState(sharedState.put(CUSTOMER_SESSION_ID, name))
+						.build()).orElseGet(() -> collectOTP(context));
+	}
+
+	public enum BioCatchSessionCollectorNodeOutcome {
+		/**
+		 * Successful Found User.
+		 */
+		NEXT_OUTCOME,
+		/**
+		 * Error occured. Need to check sharedstate for issue
+		 */
+		ERROR_OUTCOME
+	}
+
+	public static class BioCatchSessionCollectorNodeOutcomeProvider implements org.forgerock.openam.auth.node.api.OutcomeProvider {
+		@Override
+		public List<Outcome> getOutcomes(PreferredLocales locales, JsonValue nodeAttributes) {
+			ResourceBundle bundle = locales.getBundleInPreferredLocale(BUNDLE,
+					BioCatchSessionCollectorNodeOutcomeProvider.class.getClassLoader());
+			return ImmutableList.of(
+					new Outcome(BioCatchSessionCollectorNodeOutcome.NEXT_OUTCOME.name(), bundle.getString("nextOutcome")),
+					new Outcome(BioCatchSessionCollectorNodeOutcome.ERROR_OUTCOME.name(), bundle.getString("errorOutcome")));
+		}
 	}
 
 }

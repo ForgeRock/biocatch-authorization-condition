@@ -124,13 +124,12 @@ public class BioCatchConditionType extends EntitlementConditionAdaptor {
 	 */
 	public ConditionDecision evaluate(String s, Subject subject, String s1, Map<String, Set<String>> map){
 
-	    logger.debug("Starting policy evaluation");
+	    logger.info("Starting policy evaluation");
 		ExecuteGetScore action = ExecuteGetScore.getInstance(getCacheExpirationTime());
 
 		
 		// Customer Session id Check
 		if (!map.containsKey(CUSTOMER_SESSION_ID)) {
-			 logger.error("Session ID not found");
 			return ConditionDecision.newBuilder(false).setAdvice(
 					Collections.singletonMap(BIOCATCH_ADVICE_KEY, Collections.singleton(CustomerSessionId_IS_NOT_PRESENT)))
 					.build();

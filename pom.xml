@@ -29,7 +29,7 @@
 
 	<groupId>com.biocatch.auth.policy</groupId>
 	<artifactId>biocatch-auth</artifactId>
-	<version>1.4.3</version>
+	<version>1.5.8</version>
 	<name>Template for an Auth Tree Hook And Policy maven project</name>
 	<description>An Post Authentication Tree Hook and Authorization Policy for ForgeRock's Identity Platform</description>
 	<packaging>jar</packaging>
@@ -95,6 +95,13 @@
 			<artifactId>json</artifactId>
 			<version>20140107</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
