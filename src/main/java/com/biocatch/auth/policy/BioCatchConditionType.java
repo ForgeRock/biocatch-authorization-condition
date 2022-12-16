@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static utils.BioCatchConsts.*;
 
@@ -26,7 +28,7 @@ import static utils.BioCatchConsts.*;
 public class BioCatchConditionType extends EntitlementConditionAdaptor {
 	
 	private final Debug debug = Debug.getInstance("BioCatch");
-
+    private static  Logger logger = LoggerFactory.getLogger(BioCatchConditionType.class);
 	public static final String SCORE_FIELD = "score";
 	private int score;
 	public static final String BIO_CATCH_END_POINT_URL_FIELD = "bioCatchEndPointUrl";
@@ -121,6 +123,8 @@ public class BioCatchConditionType extends EntitlementConditionAdaptor {
 	 * Based on configured score and decision level, it will send a action with get & post allowed for given resource.
 	 */
 	public ConditionDecision evaluate(String s, Subject subject, String s1, Map<String, Set<String>> map){
+
+	    logger.info("Starting policy evaluation");
 		ExecuteGetScore action = ExecuteGetScore.getInstance(getCacheExpirationTime());
 
 		

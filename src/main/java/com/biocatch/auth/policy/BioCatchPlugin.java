@@ -29,7 +29,7 @@ import com.google.common.collect.ImmutableMap;
  * Core nodes installed by default with no engine dependencies.
  */
 public class BioCatchPlugin extends AbstractNodeAmPlugin {
-static private String currentVersion = "1.0.0";
+static private String currentVersion = "1.5.8";
 
     /**
      * Specify the Map of list of node classes that the plugin is providing. These will then be installed and
@@ -42,7 +42,8 @@ static private String currentVersion = "1.0.0";
 		return ImmutableMap.of(
 				BioCatchPlugin.currentVersion, asList(
 						BioCatchSessionNode.class,
-						BioCatchSessionCollectorNode.class
+						BioCatchSessionCollectorNode.class,
+						BioCatchSessionProfilerNode.class
 						));
 	}
 
@@ -73,6 +74,9 @@ static private String currentVersion = "1.0.0";
      */	
 	@Override
 	public void upgrade(String fromVersion) throws PluginException {
+	    pluginTools.upgradeAuthNode(BioCatchSessionCollectorNode.class);
+        pluginTools.upgradeAuthNode(BioCatchSessionNode.class);
+        pluginTools.upgradeAuthNode(BioCatchSessionProfilerNode.class);
 		super.upgrade(fromVersion);
 	}
 
