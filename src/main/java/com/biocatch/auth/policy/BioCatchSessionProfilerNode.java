@@ -79,11 +79,10 @@ public class BioCatchSessionProfilerNode extends AbstractDecisionNode {
             return String.format(
                     "(function(output) {\n" +
                             "    %s\n" +
-                            "console.log('%s'); \n" +
                             "window.cdApi.setCustomerSessionId('%s'); \n" +
                             "window.cdApi.changeContext('LOGIN_PAGE'); \n" +
                             "}) (document);\n",
-                    script, customerSessionID, customerSessionID
+                    script, customerSessionID
             );
         }
 	

@@ -19,7 +19,7 @@
 
 	<groupId>com.biocatch.auth.policy</groupId>
 	<artifactId>biocatch-auth</artifactId>
-	<version>1.5.8</version>
+	<version>1.5.9</version>
 	<name>Template for an Auth Tree Hook And Policy maven project</name>
 	<description>An Post Authentication Tree Hook and Authorization Policy for ForgeRock's Identity Platform</description>
 	<packaging>jar</packaging>
