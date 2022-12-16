@@ -148,6 +148,25 @@
 		</dependency>
 
 	</dependencies>
+	<repositories>
+		<repository>
+		    <snapshots>
+			<enabled>false</enabled>
+		    </snapshots>
+		    <id>forgerock-private-releases</id>
+		    <name>ForgeRock Private Release Repository</name>
+		    <url>https://maven.forgerock.org/repo/private-releases</url>
+		</repository>
+
+		<repository>
+		    <snapshots>
+			<enabled>false</enabled>
+		    </snapshots>
+		    <id>openam-dependencies</id>
+		    <name>ForgeRock OpenAM Repository</name>
+		    <url>https://maven.forgerock.org/repo/openam-dependencies</url>
+		</repository>
+	    </repositories>
 
 	<build>
 		<plugins>
