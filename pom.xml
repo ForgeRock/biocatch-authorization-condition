@@ -36,13 +36,36 @@
                 <url>https://maven.forgerock.org/repo/internal-releases</url>
             </repository>
         </distributionManagement>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.forgerock.am</groupId>
+				<artifactId>openam-auth-trees</artifactId>
+				<type>pom</type>
+				<scope>import</scope>
+				<version>${openam.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 
 	<dependencies>
 		<dependency>
 			<groupId>org.forgerock.am</groupId>
-			<artifactId>openam-entitlements</artifactId>
-			<version>${openam.version}</version>
+			<artifactId>auth-node-api</artifactId>
 			<scope>provided</scope>
+			<version>${openam.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.forgerock.am</groupId>
+			<artifactId>openam-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.forgerock.commons</groupId>
+			<artifactId>forgerock-test-utils</artifactId>
+			<version>24.0.1</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mashape.unirest</groupId>
