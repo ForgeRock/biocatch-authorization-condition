@@ -1,54 +1,32 @@
 package com.biocatch.auth.policy;
-import static utils.BioCatchConsts.ACTION;
-import static utils.BioCatchConsts.CUSTOMER_ID;
-import static utils.BioCatchConsts.CUSTOMER_SESSION_ID;
-import static utils.BioCatchConsts.INIT;
-import static utils.BioCatchConsts.OK;
-import org.apache.http.impl.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.util.*;
-import javax.inject.Inject;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.inject.assistedinject.Assisted;
+import com.sun.identity.authentication.callbacks.HiddenValueCallback;
+import com.sun.identity.authentication.callbacks.ScriptTextOutputCallback;
+import org.apache.commons.text.RandomStringGenerator;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.forgerock.json.JsonValue;
 import org.forgerock.openam.annotations.sm.Attribute;
 import org.forgerock.openam.auth.node.api.AbstractDecisionNode;
 import org.forgerock.openam.auth.node.api.Action;
 import org.forgerock.openam.auth.node.api.Node;
-import org.forgerock.openam.auth.node.api.NodeProcessException;
-import org.forgerock.openam.auth.node.api.SharedStateConstants;
 import org.forgerock.openam.auth.node.api.TreeContext;
-import org.json.JSONObject;
+import org.forgerock.util.i18n.PreferredLocales;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.net.*;
-import java.io.*;
-import com.google.inject.assistedinject.Assisted;
-import com.mashape.unirest.http.HttpResponse;
-import org.forgerock.util.i18n.PreferredLocales;
-import java.util.List;
-import org.forgerock.json.JsonValue;
-import utils.BioCatchConsts;
-import utils.ExecuteGetScore;
 import utils.ExecuteInit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import com.sun.identity.authentication.callbacks.ScriptTextOutputCallback;
-import com.sun.identity.authentication.callbacks.HiddenValueCallback;
+
+import javax.inject.Inject;
+import java.util.*;
+
 import static org.forgerock.openam.auth.node.api.Action.send;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Optional;
-import org.apache.commons.text.RandomStringGenerator;
-import javax.security.auth.callback.TextOutputCallback;
-import org.forgerock.openam.auth.node.api.OutputState;
-import org.forgerock.openam.auth.node.api.SingleOutcomeNode;
-import org.forgerock.openam.auth.node.api.TreeContext;
-import com.google.common.base.Strings;
 import static utils.BioCatchConsts.CUSTOMER_SESSION_ID;
-import java.util.ResourceBundle;
-import com.google.common.collect.ImmutableList;
 /**
  * 
  * @author Sacumen (www.sacumen.com)

@@ -22,7 +22,6 @@ import org.forgerock.util.i18n.PreferredLocales;
 import java.util.List;
 import org.forgerock.json.JsonValue;
 import utils.BioCatchConsts;
-import utils.ExecuteGetScore;
 import utils.ExecuteInit;
 import java.util.ArrayList;
 import java.util.Arrays;
