@@ -16,16 +16,6 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.forgerock.am</groupId>
-				<artifactId>openam-bom</artifactId>
-				<version>7.2.0</version>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<groupId>com.biocatch.auth.policy</groupId>
 	<artifactId>biocatch-auth</artifactId>
@@ -46,16 +36,6 @@
                 <url>https://maven.forgerock.org/repo/internal-releases</url>
             </repository>
         </distributionManagement>
-	<repositories>
-		<repository>
-			<id>forgerock-staging-repository</id>
-			<url>https://maven.forgerock.org/repo/releases</url>
-		</repository>
-		<repository>
-			<id>forgerock-snapshots-repository</id>
-			<url>https://maven.forgerock.org/repo/snapshots</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
