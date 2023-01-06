@@ -1,6 +1,6 @@
 # BioCatch-Auth
-A collection of nodes and authorization policies for for ForgeRock's [Identity Platform][forgerock_platform] 6.5 and 
-above.
+A collection of nodes and authorization policies for ForgeRock's [Identity Platform][forgerock_platform] 7.0 and 
+above as well as identity cloud.
 
 ## BioCatch Information
 
@@ -28,70 +28,6 @@ Download the Biocatch jar from Github repository in the [releases section](https
 
 Copy the .jar file from the ../target directory into the ../web-container/webapps/openam/WEB-INF/lib directory where AM is deployed.
 
-Edit translation.json file - under ../web-container/webapps/openam/XUI/locales/en
-
-Search for "conditionTypes" and add to it the following:
-
-```js
-"BioCatchCondition": {
-                 "title": "BioCatch Authorization Condition",
-                 "props": {
-                 "score": "Score",
-                 "BioCatchEndPointUrl" : "BioCatch End Point URL",
-	         "customerId" : "Customer ID",
-		 "advice" : "Advice",
-		 "level" : "Greater than or Less than or Equal to(< or > or =)",
-		 "cacheExpirationTime" : "Cache Expiration Time (In Seconds)"
-                            }
-                        },
-```
-
-The file should look like this after editing:
-
-```js
- "conditionTypes": {
-         "BioCatchCondition": {
-                 "title": "BioCatch Authorization Condition",
-                 "props": {
-                      "score": "Score",
-		      "BioCatchEndPointUrl" : "BioCatch End Point URL",
-		      "customerId" : "Customer ID",
-		      "advice" : "Advice",
-		      "level" : "Greater than or Less than or Equal to(< or > or =)",
-		      "cacheExpirationTime" : "Cache Expiration Time (In Seconds)"
-                            }
-                        },
-          "AMIdentityMembership": {
-              "title": "Identity Membership",
-              "props": {
-                  "amIdentityName": "AM Identity Name"
-              }
-          },
-          "AuthLevel": {
-              "title": "Authentication Level (greater than or equal to)",
-              "props": {
-                  "authLevel": "Authentication Level"
-              }
-          },
-          "AuthScheme": {
-              "title": "Authentication by Module Instance",
-              "props": {
-                  "authScheme": "Authentication Scheme",
-                  "applicationIdleTimeout": "Application Idle Timeout Scheme",
-                  "applicationName": "Application Name"
-              }
-          },
-          "AuthenticateToRealm": {
-              "title": "Authentication to a Realm",
-              "props": {
-                  "authenticateToRealm": "Authenticate to a Realm"
-              }
-          }.....................
-```
-
-Restart the web container, the new condition will appear under Authorization -> Policy Set -> Policy -> Environments -> 
-BioCatch Authorization Policy and the authentication nodes will be visible under Authnetication -> Tree > BioCatch Session Collector Node and BioCatch Session Node.
-
 In case BioCatchCondition should be added to existing policy, follow the following explanation on how to update existing policy with new condition: https://backstage.forgerock.com/docs/am/6/authorization-guide/#add-custom-policy-impl-to-existing-apps
 
 # BioCatch-Auth Tree Configuration
@@ -108,51 +44,50 @@ Attributes to be configured are:
 * BioCatch End Point : Endpoint URL of BioCatch to hit init API.
 * Customer Id : The customer or project identifier provided by BioCatch.
 
+* BioCatch Profiler Node - This node will inject the Biocatch javascript SDK into the page.
 
-Nodes appear like this : 
-![bio_4](https://user-images.githubusercontent.com/20396535/53595251-c6696180-3bc2-11e9-8c41-6457ef0bedc5.PNG)
+Attributes to be configured are:
+* JavaScript SDK URL : The URL to the javascript SDK URL.
 
-
-## Configure the trees as follows
-
- * Navigate to **Realm** > **Authentication** > **Trees** > **Create Tree**
- 
- ![tree](https://user-images.githubusercontent.com/20396535/48189113-66c21e80-e365-11e8-8045-326786a41aca.PNG)
 
 
 ## Configuring BioCatch-Auth Tree
 
 This section depicts configuration of BioCatch-Auth Auth Tree
 
-
 * Configure BioCatch-Auth Tree as shown below
 
-Tree Configuration : 
-![bio_5](https://user-images.githubusercontent.com/20396535/53595348-06c8df80-3bc3-11e9-9a7a-1cea643e7be0.PNG)
+### Example Tree 1
 
+The example flow above will use the Biocatch Session Profiler node to inject the javascript into the page. It will generate and store a Customer Session ID, when will then be used in the BioCatch Session node to make the API call to the BioCatch scoring initiate API.
+
+![Biocatch Tree 1](images/biocatch-tree1.png)
+
+### Example Tree 2
+
+The example flow above is used when the JavaScript is injected without the Biocatch Session Profiler Node. Instead the JavaScript is injected in the customers application, and the customer Session ID will be sent to ForgeRock, and collected in the Biocatch Session Collector node.
+
+![Biocatch Tree 2](images/biocatch-tree2.png)
+
+
+# BioCatchCreate the policy condition script
+
+1. Log into ForgeRock Identity Cloud
+2. Go to Auth Scripts -> New Scripts
+3. Select policy condition and give the script a name
+4. Copy the biocatchPolicyScript.js from this github repository and paste it into the JavaScript text box.
+5. Modify the configuration values in the top section of the script
+
+Attributes to be configured are:
+* biocatchEndpoint: Biocatch endpoint
+* customerId: Biocatch customerID
+* minScore: Minimum score allowed from BioCatch
+* maxScore: Maximum score allowed from BioCatch
+* advices: The advices to be returned in a fraudulent request
 
 # BioCatch-Auth Authorization Policy Configuration:
 1. Log into ForgeRock AM console
-2. Go to Authorization -> Policy Set -> {policy} -> Environments -> Add environment condition -> select BioCatch Authorization Condition
+2. Go to Authorization -> Policy Set -> {policy} -> Environments -> Add environment condition  -> select script -> choose configured BioCatch script
 
-## Policy_1
-
-![policy_1](https://user-images.githubusercontent.com/20396535/53596014-c4a09d80-3bc4-11e9-9bb9-b19c64e3a7f3.PNG)
-
-![policy_01](https://user-images.githubusercontent.com/20396535/53596035-d7b36d80-3bc4-11e9-8c44-f551e7bc760b.PNG)
-
-
-## Policy_2
-
-![policy_2](https://user-images.githubusercontent.com/20396535/53596070-ed289780-3bc4-11e9-9f94-7264a030b873.PNG)
-
-![policy_02](https://user-images.githubusercontent.com/20396535/53596086-fa458680-3bc4-11e9-9826-679ec153cba9.PNG)
-
-
-## Policy_3
-
-![policy_3](https://user-images.githubusercontent.com/20396535/53596126-134e3780-3bc5-11e9-9ccd-11f1cd7dc2c8.PNG)
-
-![policy_03](https://user-images.githubusercontent.com/20396535/53596165-26f99e00-3bc5-11e9-9b22-40b642515b7f.PNG)
 
 
