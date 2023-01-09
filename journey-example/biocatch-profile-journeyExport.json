@@ -1,0 +1,219 @@
+{
+  "meta": {
+    "origin": "",
+    "exportedBy": "tyler.gelinas@forgerock.com",
+    "exportDate": "2023-01-04T17:16:06.362Z",
+    "exportTool": "platform-admin ui tree export",
+    "exportToolVersion": "1.0",
+    "treesSelectedForExport": [
+      "biocatch-profile"
+    ],
+    "innerTreesIncluded": []
+  },
+  "trees": {
+    "biocatch-profile": {
+      "tree": {
+        "_id": "biocatch-profile",
+        "_rev": "-2057600595",
+        "identityResource": "managed/alpha_user",
+        "uiConfig": {
+          "categories": "[]"
+        },
+        "entryNodeId": "75745120-1f62-4ed7-b18e-20c18e94e134",
+        "nodes": {
+          "06be80e3-4fcb-4551-a0b8-fceb86496c1e": {
+            "x": 453,
+            "y": 206,
+            "connections": {
+              "false": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "true": "f499d181-3fa0-4831-8070-3d907d183768"
+            },
+            "nodeType": "DataStoreDecisionNode",
+            "displayName": "Data Store Decision"
+          },
+          "75745120-1f62-4ed7-b18e-20c18e94e134": {
+            "x": 131,
+            "y": 213,
+            "connections": {
+              "outcome": "06be80e3-4fcb-4551-a0b8-fceb86496c1e"
+            },
+            "nodeType": "PageNode",
+            "displayName": "Page Node"
+          },
+          "e20c959f-5290-4dbd-9fd4-bbfd6b44886a": {
+            "x": 722,
+            "y": 31,
+            "connections": {
+              "Error": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "False": "e301438c-0bd0-429c-ab0c-66126501069a",
+              "True": "70e691a5-1e33-4ac3-a356-e7b6d60d92e0"
+            },
+            "nodeType": "BioCatchSessionNode",
+            "displayName": "BioCatch Session"
+          },
+          "f499d181-3fa0-4831-8070-3d907d183768": {
+            "x": 599,
+            "y": 124.015625,
+            "connections": {
+              "NEXT_OUTCOME": "e20c959f-5290-4dbd-9fd4-bbfd6b44886a",
+              "ERROR_OUTCOME": "e301438c-0bd0-429c-ab0c-66126501069a"
+            },
+            "nodeType": "BioCatchSessionCollectorNode",
+            "displayName": "BioCatch Session Collector"
+          }
+        },
+        "staticNodes": {
+          "startNode": {
+            "x": 50,
+            "y": 25
+          },
+          "70e691a5-1e33-4ac3-a356-e7b6d60d92e0": {
+            "x": 1096,
+            "y": 82
+          },
+          "e301438c-0bd0-429c-ab0c-66126501069a": {
+            "x": 1065,
+            "y": 272
+          }
+        },
+        "enabled": true
+      },
+      "nodes": {
+        "06be80e3-4fcb-4551-a0b8-fceb86496c1e": {
+          "_id": "06be80e3-4fcb-4551-a0b8-fceb86496c1e",
+          "_rev": "-1109828477",
+          "_type": {
+            "_id": "DataStoreDecisionNode",
+            "name": "Data Store Decision",
+            "collection": true
+          },
+          "_outcomes": [
+            {
+              "id": "true",
+              "displayName": "True"
+            },
+            {
+              "id": "false",
+              "displayName": "False"
+            }
+          ]
+        },
+        "75745120-1f62-4ed7-b18e-20c18e94e134": {
+          "_id": "75745120-1f62-4ed7-b18e-20c18e94e134",
+          "_rev": "-1057910473",
+          "nodes": [
+            {
+              "_id": "c8246e7e-9021-4f47-9439-13ce27a5d8e5",
+              "nodeType": "ValidatedUsernameNode",
+              "displayName": "Platform Username"
+            },
+            {
+              "_id": "be85f296-fad1-41c9-a576-c45d3920a35a",
+              "nodeType": "ValidatedPasswordNode",
+              "displayName": "Platform Password"
+            }
+          ],
+          "pageDescription": {},
+          "pageHeader": {},
+          "_type": {
+            "_id": "PageNode",
+            "name": "Page Node",
+            "collection": true
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "e20c959f-5290-4dbd-9fd4-bbfd6b44886a": {
+          "_id": "e20c959f-5290-4dbd-9fd4-bbfd6b44886a",
+          "_rev": "-83137458",
+          "biocatchEndPoint": "",
+          "customerId": "",
+          "_type": {
+            "_id": "BioCatchSessionNode",
+            "name": "BioCatch Session",
+            "collection": true
+          },
+          "_outcomes": [
+            {
+              "id": "True",
+              "displayName": "True"
+            },
+            {
+              "id": "False",
+              "displayName": "False"
+            },
+            {
+              "id": "Error",
+              "displayName": "Error"
+            }
+          ]
+        },
+        "f499d181-3fa0-4831-8070-3d907d183768": {
+          "_id": "f499d181-3fa0-4831-8070-3d907d183768",
+          "_rev": "-23684397",
+          "_type": {
+            "_id": "BioCatchSessionCollectorNode",
+            "name": "BioCatch Session Collector",
+            "collection": true
+          },
+          "_outcomes": [
+            {
+              "id": "NEXT_OUTCOME",
+              "displayName": "Next"
+            },
+            {
+              "id": "ERROR_OUTCOME",
+              "displayName": "Error"
+            }
+          ]
+        }
+      },
+      "innerNodes": {
+        "c8246e7e-9021-4f47-9439-13ce27a5d8e5": {
+          "_id": "c8246e7e-9021-4f47-9439-13ce27a5d8e5",
+          "_rev": "-245735315",
+          "usernameAttribute": "userName",
+          "validateInput": false,
+          "_type": {
+            "_id": "ValidatedUsernameNode",
+            "name": "Platform Username",
+            "collection": true
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        },
+        "be85f296-fad1-41c9-a576-c45d3920a35a": {
+          "_id": "be85f296-fad1-41c9-a576-c45d3920a35a",
+          "_rev": "-1721614679",
+          "passwordAttribute": "password",
+          "validateInput": false,
+          "_type": {
+            "_id": "ValidatedPasswordNode",
+            "name": "Platform Password",
+            "collection": true
+          },
+          "_outcomes": [
+            {
+              "id": "outcome",
+              "displayName": "Outcome"
+            }
+          ]
+        }
+      },
+      "scripts": {},
+      "emailTemplates": {},
+      "socialIdentityProviders": {},
+      "themes": [],
+      "saml2Entities": {},
+      "circlesOfTrust": {}
+    }
+  }
+}
