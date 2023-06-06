@@ -1,6 +1,5 @@
 # BioCatch-Auth
-A collection of nodes and authorization policies for ForgeRock's [Identity Platform][forgerock_platform] 7.0 and 
-above as well as identity cloud.
+A collection of authentication nodes and authorization policies for ForgeRock Identity Cloud.
 
 ## BioCatch Information
 
